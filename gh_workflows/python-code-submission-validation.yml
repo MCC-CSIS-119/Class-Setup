@@ -1,0 +1,47 @@
+name: Code Submission Validation
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  lint-and-compile:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+
+    - name: Install flake8
+      run: pip install flake8
+
+    - name: Lint Python files
+      run: |
+        echo "🔍 Running flake8 lint check..."
+        echo "------------------------------"
+        if ! flake8 --filename="*.py" --max-line-length=88 --statistics .; then
+          echo ""
+          echo "❌ Linting failed! Please fix the issues above."
+          echo "💡 Tip: Run 'flake8 .' locally to check before committing."
+          exit 1
+        fi
+        echo "✅ No lint issues found!"
+
+    - name: Compile Python files
+      run: |
+        echo "🔍 Checking Python syntax..."
+        echo "------------------------------"
+        if ! python -m compileall -q .; then
+          echo ""
+          echo "❌ Compilation failed! One or more files have syntax errors."
+          echo "💡 Tip: Look at the error messages above and fix your code."
+          exit 1
+        fi
+        echo "✅ All Python files compiled successfully!"

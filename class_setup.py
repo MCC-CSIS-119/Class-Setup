@@ -48,17 +48,3 @@ if __name__ == "__main__":
     current_students = fetch_students()
 
     write_full_names_to_csv(current_students)
-
-    # student_info = fetch_students()
-    # student_info = ["Fake-Student"]
-
-    # for student in student_info:
-    #     create_repo(student, "Scripting fundamentals")
-
-    #     sha = fetch_main_ref(student)
-    #     print(sha)
-
-
-# TODO:
-# 1) Grant users "Write" access to repo
-# 2) Create default dev branch
