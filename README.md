@@ -16,8 +16,8 @@
 
 ```
 export CANVAS_COURSE_ID="22251"
-export CANVAS_TOKEN="abcd-1234567890"
 export STUDENT_DATA_PATH="${HOME}/Documents/MCC/CSIS-119--Scripting-Fundamentals/2025-Fall"
+export CANVAS_TOKEN="abcd-1234567890"
 ```
 
 ```
@@ -40,3 +40,15 @@ Export a roster from Canvas with names. Upload the CSV to GitHub Classroom. Clas
 ## Todo
 
 - Add linting exceptions
+
+## Classroom to GitHub Team script
+
+This script can be used to add all students from GitHub Classroom to a GitHub Org team
+
+```sh
+python classroom_to_team.py \
+  --org MCC-CSIS-119 \
+  --team-slug class-of-2025 \
+  --classroom-name "Scripting-Fundamentals-2025-Fall" \
+  --dry-run
+```
