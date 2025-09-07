@@ -29,19 +29,19 @@ def fetch_students():
 def write_full_names_to_csv(students):
     """Create 'full_name' for each student and write to CSV."""
     # Add 'full_name' to each dictionary
-    for student in students:
-        # Replace spaces with hyphens in the 'name' field
-        student['full_name'] = student['name'].replace(" ", "-")
+    # for student in students:
+    #     # Replace spaces with hyphens in the 'name' field
+    #     student['full_name'] = student['name'].replace(" ", "-")
 
     # Write to CSV
-    output_file = os.path.join(STUDENT_DATA_PATH, "students-full-names.csv")
-    print("Writing student names to #{output_file}")
+    output_file = os.path.join(STUDENT_DATA_PATH, "student-names.txt")
+    print(f"Writing student names to #{output_file}")
 
-    with open(output_file, mode='w', newline='', encoding='utf-8') as csv_file:
-        writer = csv.writer(csv_file)
+    with open(output_file, mode='w', newline='', encoding='utf-8') as file:
+        # writer = csv.writer(file)
 
         for student in students:
-            writer.writerow([student['full_name'], ""])  # name, empty cell (adds comma)
+            file.write(f"{student['name']}\n")  # name, empty cell (adds comma)
 
 
 if __name__ == "__main__":
