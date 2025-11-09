@@ -22,3 +22,6 @@ ls -l /home/*/system_monitor.sh
 
 chmod +x system_monitor_selfcheck.sh
 ln -s system_monitor_selfcheck.sh /usr/local/bin/system_monitor_selfcheck
+
+echo "Status: system_monitor_selfcheck"
+ls -l /usr/local/bin/system_monitor_selfcheck
