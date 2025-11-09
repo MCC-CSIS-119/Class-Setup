@@ -60,9 +60,6 @@ do
     then
         echo "Waiting 5 seconds before next run..."
         # TODO: Add command to sleep for five seconds
-    else
-        echo "Error: invalid comparison operator."
-        exit 1
     fi
 
     # Increment counter
