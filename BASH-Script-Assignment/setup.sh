@@ -20,4 +20,5 @@ echo
 echo "Status: starter script"
 ls -l /home/*/system_monitor.sh
 
+chmod +x system_monitor_selfcheck.sh
 ln -s system_monitor_selfcheck.sh /usr/local/bin/system_monitor_selfcheck
