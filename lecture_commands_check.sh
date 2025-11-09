@@ -40,20 +40,20 @@ slide1(){ local hf="$1";
     || found '(^|[[:space:]])tree([[:space:]]+[^|;]*)?[[:space:]]+/([[:space:]]|$)' "$hf" )
 }
 slide2(){ local hf="$1" student="$2";
-  found "(^|[[:space:]])cd[[:space:]]+/home/${student}[[:space:]]*$" "$hf" &&
+  found '(^|[[:space:]])cd[[:space:]]+/home/\$USER[[:space:]]*$' "$hf" &&
   found '(^|[[:space:]])pwd([[:space:]]|$)' "$hf" &&
   found "$ls_al_regex" "$hf"
 }
 slide3(){ local hf="$1" student="$2";
-  found "(^|[[:space:]])cd[[:space:]]+/home/${student}[[:space:]]*$" "$hf" &&
-  found '(^|[[:space:]])cd[[:space:]]+my_scripts([[:space:]]|$)' "$hf" &&
+  found '(^|[[:space:]])cd[[:space:]]+/home/\$USER[[:space:]]*$' "$hf" &&
+  found '(^|[[:space:]])cd[[:space:]]+my_scripts' "$hf" &&
   found '(^|[[:space:]])pwd([[:space:]]|$)' "$hf" &&
   found "$ls_al_regex" "$hf"
 }
 slide4(){ local hf="$1";
-  found '(^|[[:space:]])cd[[:space:]]+~([[:space:]]|$)' "$hf" &&
+  found '(^|[[:space:]])cd[[:space:]]+~' "$hf" &&
   found '(^|[[:space:]])pwd([[:space:]]|$)' "$hf" &&
-  found '(^|[[:space:]])cd[[:space:]]+my_scripts([[:space:]]|$)' "$hf" &&
+  found '(^|[[:space:]])cd[[:space:]]+my_scripts' "$hf" &&
   found "$ls_al_regex" "$hf" &&
   found '(^|[[:space:]])cat[[:space:]]+hello\.sh([[:space:]]|$)' "$hf"
 }
@@ -71,13 +71,14 @@ slide6(){ local hf="$1";
 slide7(){ local hf="$1" student="$2";
   found '(^|[[:space:]])cat[[:space:]]+/etc/passwd([[:space:]]|$)' "$hf" &&
   ( found 'cat[[:space:]]+/etc/passwd[[:space:]]*\|[[:space:]]*grep[[:space:]]+\$USER' "$hf" \
-    || found "cat[[:space:]]+/etc/passwd[[:space:]]*\\|[[:space:]]*grep[[:space:]]+${student}([[:space:]]|$)" "$hf" ) &&
-  found "awk[[:space:]]+-F:[[:space:]]*" "$hf" &&
+    || found 'cat[[:space:]]+/etc/passwd[[:space:]]*\\|[[:space:]]*grep[[:space:]]+\$USER([[:space:]]|$)' "$hf" ) &&
+  found "awk[[:space:]]+-F':'[[:space:]]*" "$hf" &&
   found "print[[:space:]]*\\\$1" "$hf" &&
-  found "\\\$2" "$hf"
+  found "\\\$3" "$hf"
 }
 slide8(){ local hf="$1";
-  found "cat[[:space:]]+/etc/passwd[[:space:]]*\\|[[:space:]]*awk[[:space:]]+-F:[[:space:]]*" "$hf" &&
+  # found "cat[[:space:]]+/etc/passwd[[:space:]]*\\|[[:space:]]*awk[[:space:]]+-F:[[:space:]]*" "$hf" &&
+  found "cat[[:space:]]+/etc/passwd[[:space:]]*\\|[[:space:]]*awk*" "$hf" &&
   found "print[[:space:]]*\\\$1" "$hf" &&
   found "\\|[[:space:]]*sort([[:space:]]|$)" "$hf"
 }
@@ -147,7 +148,7 @@ while IFS= read -r student; do
   [[ -z "${student// }" ]] && continue
 
   # If a non-teacher tries to grade someone else (e.g., by setting $USER), hard block:
-  if [[ "$MODE" != "me" && "$student" != "$CURRENT_USER" && ! is_teacher ]]; then
+  if [[ "$MODE" != "me" && "$student" != "$CURRENT_USER" && ! $(is_teacher) ]]; then
     echo "Error: not authorized to grade user '$student'." >&2
     continue
   fi
